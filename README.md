@@ -1,17 +1,63 @@
+# Rails cheat sheet [WIP]
+
+# I. Create and configure
+
 # Table of contents
-1. [Introduction](#introduction)
-2. [Some paragraph](#paragraph1)
-    1. [Sub paragraph](#subparagraph1)
-3. [Another paragraph](#paragraph2)
+1. [Create the app](#create_app)
+2. [Configure](#Configure)
+    1. [Add Rspec](#rspec)
+    2. [Add Rubocop](#rubocop)
 
-## This is the introduction <a name="introduction"></a>
-Some introduction text, formatted in heading 2 style
+## 1) Create the app <a name="create_app"></a>
+`rails new --help` to show default configuration options.
 
-## Some paragraph <a name="paragraph1"></a>
-The first paragraph text
+Useful options: 
+`-d postgresql` Preconfigure for selected database
+`-T` Skip test 
+`./` Create app in the current folder. App name, is the name of the folder.
 
-### Sub paragraph <a name="subparagraph1"></a>
-This is a sub paragraph, formatted in heading 3 style
+## 2) Configure test  <a name="configure"></a>
+### a) Install Rspec <a name="rspec"></a>
+[GitHub - rspec/rspec-rails: RSpec for Rails-3+](https://github.com/rspec/rspec-rails)
+* Add gem to gemfile & `bundle install`
+* Initialize the spec/ directory
+`rails generate rspec:install`
+* To include rails_helper by default, append to generated .rspec file:
+`--require rails_helper`
 
-## Another paragraph <a name="paragraph2"></a>
-The second paragraph text
+### b) Add rubocop <a name="rubocop"></a>
+* Add gem to gemfile & `bundle install`
+* Add Relaxed Rubocop (https://relaxed.ruby.style/): Add the following lines to your `.rubocop.yml`:
+```YAML
+inherit_from:
+  https://relaxed.ruby.style/rubocop.yml
+```
+* Add more config in `.rubocop.yml`:
+
+
+```yaml
+inherit_from:
+  - http://relaxed.ruby.style/rubocop.yml
+
+AllCops:
+  DisplayStyleGuide: true
+  DisplayCopNames: true
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+    - 'config/environments/*.rb'
+    - 'bin/*'
+
+Rails:
+  Enabled: True
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'Guardfile'
+    - 'vendor/bundle'
+
+```
